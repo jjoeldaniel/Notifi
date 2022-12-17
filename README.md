@@ -1,5 +1,7 @@
 # **Notifi**
 
+<a href="https://discord.com/api/oauth2/authorize?client_id=1023141335055736842&permissions=0&scope=bot%20applications.commands"><img src="https://img.shields.io/badge/discord-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white" alt="discord support server invite" /></a>
+
 > A Discord bot to notify users when a phrase is sent
 
 With *Notifi*, users store *reminders* to subscribe to notifications for various phrases/words.
