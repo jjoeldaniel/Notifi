@@ -1,6 +1,8 @@
-# Notifi
+# **Notifi**
 
 > A Discord bot to notify users when a phrase is sent
+
+With *Notifi*, users store *reminders* to subscribe to notifications for various phrases/words.
 
 ## Table of Contents
 
@@ -13,11 +15,11 @@
 
 | Command           | Description                |
 |-------------------|----------------------------|
-| `/trigger new`    | Adds new trigger           |
-| `/trigger reset`  | Resets all stored triggers |
-| `/trigger list`   | Lists all stored triggers  |
-| `/trigger delete` | Deletes specified trigger  |
-| `/trigger toggle` | Toggles trigger feature    |
+| `/notifi new`    | Adds new reminder           |
+| `/notifi reset`  | Resets all stored reminders |
+| `/notifi list`   | Lists all stored reminders  |
+| `/notifi delete` | Deletes specified reminder  |
+| `/notifi toggle` | Toggles notifications       |
 
 ## References
 
