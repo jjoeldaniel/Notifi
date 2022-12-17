@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class Main
 {
 
-    public static void main( String[] args ) throws InterruptedException, SQLException
+    public static void main( String[] args ) throws InterruptedException
     {
 
         // Loads .env file and stores all values into system properties
@@ -55,18 +55,15 @@ public class Main
         log.info( jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator() );
 
         // Status
-        jda.getPresence().setActivity( Activity.listening( "/notifi help" ) );
+        jda.getPresence().setActivity( Activity.listening( "/trigger help" ) );
 
         try
         {
-            Properties props = new Properties();
-            props.setProperty( "user", System.getProperty( "DATABASE_USER" ) );
-            props.setProperty( "password", System.getProperty( "DATABASE_PASSWORD" ) );
-
-            Connection db = DriverManager.getConnection( System.getProperty( "DATABASE_URL" ), props );
+            Database.initializeDatabase();
         }
         catch ( SQLException e )
         {
+            log.error( "Failed to initialize database" );
             e.printStackTrace();
         }
     }
