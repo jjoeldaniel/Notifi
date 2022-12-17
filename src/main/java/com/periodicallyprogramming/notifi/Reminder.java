@@ -295,7 +295,7 @@ public class Reminder extends ListenerAdapter
     @Override
     public void onCommandAutoCompleteInteraction( @NotNull CommandAutoCompleteInteractionEvent event )
     {
-        if ( event.getName().equals( Commands.TRIGGER ) && event.getFocusedOption().getName().equals( "word" ) )
+        if ( event.getName().equals( Commands.NOTIFI ) && event.getFocusedOption().getName().equals( "word" ) )
         {
 
             if ( triggerMap.get( event.getMember().getId() ) == null )
