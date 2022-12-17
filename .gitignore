@@ -8,4 +8,4 @@
 /target/
 
 # Manifest MF
-/src/resources/
+src/main/resources/META-INF/MANIFEST.MF
