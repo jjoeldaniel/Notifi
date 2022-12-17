@@ -71,31 +71,31 @@ public class Register extends ListenerAdapter
         List<CommandData> guildCommandData = new ArrayList<>();
 
         // Trigger command + subcommands
-        SubcommandData help = new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_HELP,
-                com.periodicallyprogramming.notifi.Commands.TRIGGER_HELP_DESCRIPTION );
-        SubcommandData reset = new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_RESET,
-                com.periodicallyprogramming.notifi.Commands.TRIGGER_RESET_DESCRIPTION );
-        SubcommandData list = new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_LIST,
-                com.periodicallyprogramming.notifi.Commands.TRIGGER_LIST_DESCRIPTION );
+        SubcommandData help = new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_HELP,
+                com.periodicallyprogramming.notifi.Commands.NOTIFI_HELP_DESCRIPTION );
+        SubcommandData reset = new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_RESET,
+                com.periodicallyprogramming.notifi.Commands.NOTIFI_RESET_DESCRIPTION );
+        SubcommandData list = new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_LIST,
+                com.periodicallyprogramming.notifi.Commands.NOTIFI_LIST_DESCRIPTION );
         SubcommandData toggle =
-                new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_TOGGLE,
-                        com.periodicallyprogramming.notifi.Commands.TRIGGER_TOGGLE_DESCRIPTION )
-                        .addOption( OptionType.BOOLEAN, com.periodicallyprogramming.notifi.Commands.TRIGGER_TOGGLE_OPTION_NAME,
-                                com.periodicallyprogramming.notifi.Commands.TRIGGER_TOGGLE_OPTION_DESCRIPTION, true );
+                new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE,
+                        com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_DESCRIPTION )
+                        .addOption( OptionType.BOOLEAN, com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_OPTION_NAME,
+                                com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_OPTION_DESCRIPTION, true );
         SubcommandData newTrigger =
-                new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_NEW,
-                        com.periodicallyprogramming.notifi.Commands.TRIGGER_NEW_DESCRIPTION )
-                        .addOption( OptionType.STRING, com.periodicallyprogramming.notifi.Commands.TRIGGER_NEW_OPTION_NAME,
-                                com.periodicallyprogramming.notifi.Commands.TRIGGER_NEW_OPTION_DESCRIPTION, true );
+                new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW,
+                        com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW_DESCRIPTION )
+                        .addOption( OptionType.STRING, com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW_OPTION_NAME,
+                                com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW_OPTION_DESCRIPTION, true );
         SubcommandData delete =
-                new SubcommandData( com.periodicallyprogramming.notifi.Commands.TRIGGER_DELETE,
-                        com.periodicallyprogramming.notifi.Commands.TRIGGER_DELETE_DESCRIPTION )
-                        .addOption( OptionType.STRING, com.periodicallyprogramming.notifi.Commands.TRIGGER_DELETE_OPTION_NAME,
-                                com.periodicallyprogramming.notifi.Commands.TRIGGER_DELETE_OPTION_DESCRIPTION, true, true );
+                new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_DELETE,
+                        com.periodicallyprogramming.notifi.Commands.NOTIFI_DELETE_DESCRIPTION )
+                        .addOption( OptionType.STRING, com.periodicallyprogramming.notifi.Commands.NOTIFI_DELETE_OPTION_NAME,
+                                com.periodicallyprogramming.notifi.Commands.NOTIFI_DELETE_OPTION_DESCRIPTION, true, true );
 
         guildCommandData.add(
-                Commands.slash( com.periodicallyprogramming.notifi.Commands.TRIGGER,
-                                com.periodicallyprogramming.notifi.Commands.TRIGGER_DESCRIPTION )
+                Commands.slash( com.periodicallyprogramming.notifi.Commands.NOTIFI,
+                                com.periodicallyprogramming.notifi.Commands.NOTIFI_DESCRIPTION )
                         .addSubcommands( help, reset, list, toggle, newTrigger, delete ) );
 
         return guildCommandData;
