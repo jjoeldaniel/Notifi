@@ -3,5 +3,9 @@
 /out/
 *.env
 
+# Maven
+/test/
+/target/
+
 # Manifest MF
 /src/resources/
