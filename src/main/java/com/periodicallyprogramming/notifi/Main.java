@@ -47,7 +47,7 @@ public class Main
                 .setMemberCachePolicy( MemberCachePolicy.ALL )
 
                 // Event listeners (new instances of other classes extending ListenerAdapter)
-                .addEventListeners( new Register(), new Trigger() )
+                .addEventListeners( new Register(), new Reminder() )
 
                 .build()
                 .awaitReady();
@@ -55,7 +55,7 @@ public class Main
         log.info( jda.getSelfUser().getName() + "#" + jda.getSelfUser().getDiscriminator() );
 
         // Status
-        jda.getPresence().setActivity( Activity.listening( "/trigger help" ) );
+        jda.getPresence().setActivity( Activity.listening( "/notifi help" ) );
 
         try
         {
