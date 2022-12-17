@@ -4,7 +4,7 @@
 
 > A Discord bot to notify users when a phrase is sent
 
-With *Notifi*, users store *reminders* to subscribe to notifications for various phrases/words.
+With Notifi, users store *reminders* to subscribe to notifications for various phrases/words.
 
 ## Table of Contents
 
