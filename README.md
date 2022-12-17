@@ -27,5 +27,3 @@ With *Notifi*, users store *reminders* to subscribe to notifications for various
 - [SLF4J](https://github.com/qos-ch/slf4j)
 - [dotenv Java](https://github.com/cdimascio/dotenv-java)
 - [fuzzywuzzy](https://github.com/xdrop/fuzzywuzzy)
-
----
