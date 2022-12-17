@@ -15,8 +15,9 @@ With Notifi, users store *reminders* to subscribe to notifications for various p
 
 ## Commands
 
-| Command           | Description                |
-|-------------------|----------------------------|
+| Command          | Description                 |
+|------------------|-----------------------------|
+| `/notifi help`   | Lists all commands          |
 | `/notifi new`    | Adds new reminder           |
 | `/notifi reset`  | Resets all stored reminders |
 | `/notifi list`   | Lists all stored reminders  |
