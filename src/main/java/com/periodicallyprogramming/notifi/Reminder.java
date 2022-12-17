@@ -29,16 +29,16 @@ import java.util.stream.Stream;
 public class Reminder extends ListenerAdapter
 {
 
-    // Discord member ID : Set of trigger phrases
-    HashMap<String, LinkedHashSet<String>> triggerMap = new HashMap<>();
+    // Discord member ID : Set of reminder phrases
+    HashMap<String, LinkedHashSet<String>> reminderMap = new HashMap<>();
 
-    // Discord member ID : Trigger Activation (true = activated, false = deactivated)
-    HashMap<String, Boolean> triggerToggle = new HashMap<>();
+    // Discord member ID : Notification Activation (true = activated, false = deactivated)
+    HashMap<String, Boolean> notificationToggle = new HashMap<>();
 
     int min = 0;
     int max = 5;
 
-    final int MAX_TRIGGERS = 50;
+    final int MAX_REMINDERS = 50;
 
     // SLF4J Logger
     final Logger log = LoggerFactory.getLogger( Main.class );
@@ -48,10 +48,10 @@ public class Reminder extends ListenerAdapter
     {
         if ( event.getGuild().getId().equals( System.getProperty( "GUILD_ID" ) ) )
         {
-            // Loads triggers from database
+            // Loads reminders from database
             try
             {
-                Database.syncData( triggerMap, triggerToggle );
+                Database.syncData( reminderMap, notificationToggle );
             }
             catch ( SQLException e )
             {
@@ -90,9 +90,9 @@ public class Reminder extends ListenerAdapter
                 // Takes string result of option ID matching "word"
                 String triggerPhrase = event.getOption( "word" ).getAsString().toLowerCase();
 
-                if ( triggerMap.containsKey( event.getMember().getId() ) )
+                if ( reminderMap.containsKey( event.getMember().getId() ) )
                 {
-                    if ( inSet( triggerPhrase, triggerMap.get( event.getMember().getId() ) ) )
+                    if ( inSet( triggerPhrase, reminderMap.get( event.getMember().getId() ) ) )
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor( Color.red )
@@ -102,7 +102,7 @@ public class Reminder extends ListenerAdapter
                         event.replyEmbeds( builder.build() ).setEphemeral( true ).queue();
                         return;
                     }
-                    if ( triggerMap.get( event.getMember().getId() ).size() >= MAX_TRIGGERS )
+                    if ( reminderMap.get( event.getMember().getId() ).size() >= MAX_REMINDERS )
                     {
                         EmbedBuilder builder = new EmbedBuilder()
                                 .setColor( Color.red )
@@ -116,8 +116,8 @@ public class Reminder extends ListenerAdapter
 
                 try
                 {
-                    Database.initializeIfNotExistsAndAppend( event.getMember(), triggerPhrase, triggerMap,
-                            triggerToggle );
+                    Database.initializeIfNotExistsAndAppend( event.getMember(), triggerPhrase, reminderMap,
+                            notificationToggle );
                 }
                 catch ( SQLException e )
                 {
@@ -139,7 +139,7 @@ public class Reminder extends ListenerAdapter
             }
             case ( Commands.NOTIFI_RESET ) ->
             {
-                if ( triggerMap.get( event.getMember().getId() ).isEmpty() )
+                if ( reminderMap.get( event.getMember().getId() ).isEmpty() )
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor( Color.red )
@@ -160,9 +160,9 @@ public class Reminder extends ListenerAdapter
             }
             case ( Commands.NOTIFI_LIST ) ->
             {
-                // If no triggers are found
-                if ( !triggerMap.containsKey( event.getMember().getId() ) || triggerMap.get( event.getMember().getId() )
-                        .isEmpty() || triggerMap.get( event.getMember().getId() ) == null )
+                // If no reminders are found
+                if ( !reminderMap.containsKey( event.getMember().getId() ) || reminderMap.get( event.getMember().getId() )
+                        .isEmpty() || reminderMap.get( event.getMember().getId() ) == null )
                 {
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor( Color.red )
@@ -172,8 +172,8 @@ public class Reminder extends ListenerAdapter
                 }
                 else
                 {
-                    List<String> list = new ArrayList<>( triggerMap.get( event.getMember().getId() ) );
-                    EmbedBuilder builder = triggerList( 0, 5, list );
+                    List<String> list = new ArrayList<>( reminderMap.get( event.getMember().getId() ) );
+                    EmbedBuilder builder = reminderList( 0, 5, list );
 
                     // If next page does not exist
                     if ( list.size() <= 5 )
@@ -198,18 +198,18 @@ public class Reminder extends ListenerAdapter
                 String query = event.getOption( "word" ).getAsString().toLowerCase();
 
                 // Check if query is stored
-                if ( triggerMap.get( event.getMember().getId() ) != null && inSet( query,
-                        triggerMap.get( event.getMember().getId() ) ) )
+                if ( reminderMap.get( event.getMember().getId() ) != null && inSet( query,
+                        reminderMap.get( event.getMember().getId() ) ) )
                 {
 
-                    triggerMap.get( event.getMember().getId() ).remove( query );
+                    reminderMap.get( event.getMember().getId() ).remove( query );
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor( Color.green )
                             .setDescription( "Reminder deleted: \"" + query + "\"" );
 
                     try
                     {
-                        Database.deletePhrase( event.getMember(), query, triggerMap, triggerToggle );
+                        Database.deletePhrase( event.getMember(), query, reminderMap, notificationToggle );
                     }
                     catch ( SQLException e )
                     {
@@ -230,7 +230,7 @@ public class Reminder extends ListenerAdapter
 
                     String similarPhrase = null;
 
-                    for ( String str : triggerMap.get( event.getMember().getId() ) )
+                    for ( String str : reminderMap.get( event.getMember().getId() ) )
                     {
                         if ( FuzzySearch.ratio( str, query ) > 80 )
                         {
@@ -242,11 +242,11 @@ public class Reminder extends ListenerAdapter
                     EmbedBuilder builder = new EmbedBuilder()
                             .setColor( Color.red )
                             .setTitle( "Error" )
-                            .setDescription( "Trigger not found!" );
+                            .setDescription( "Reminder not found!" );
 
                     if ( similarPhrase != null )
                     {
-                        builder.setDescription( "Trigger not found! Did you mean \"" + similarPhrase + "\"?" );
+                        builder.setDescription( "Reminder not found! Did you mean \"" + similarPhrase + "\"?" );
                     }
 
                     event.replyEmbeds( builder.build() ).setEphemeral( true ).queue();
@@ -260,7 +260,7 @@ public class Reminder extends ListenerAdapter
 
                     boolean toggle = event.getOption( "switch" ).getAsBoolean();
                     Database.toggleTrigger( event.getMember(), toggle );
-                    triggerToggle.put( event.getMember().getId(), toggle );
+                    notificationToggle.put( event.getMember().getId(), toggle );
 
                     EmbedBuilder builder = new EmbedBuilder();
 
@@ -298,13 +298,13 @@ public class Reminder extends ListenerAdapter
         if ( event.getName().equals( Commands.NOTIFI ) && event.getFocusedOption().getName().equals( "word" ) )
         {
 
-            if ( triggerMap.get( event.getMember().getId() ) == null )
+            if ( reminderMap.get( event.getMember().getId() ) == null )
             {
                 return;
             }
 
-            String[] words = new String[triggerMap.get( event.getMember().getId() ).size()];
-            words = triggerMap.get( event.getMember().getId() ).toArray( words );
+            String[] words = new String[reminderMap.get( event.getMember().getId() ).size()];
+            words = reminderMap.get( event.getMember().getId() ).toArray( words );
 
             List<Command.Choice> options = Stream.of( words )
                     .filter( word -> word.startsWith( event.getFocusedOption().getValue() ) )
@@ -328,11 +328,11 @@ public class Reminder extends ListenerAdapter
         String messageContent = event.getMessage().getContentRaw().toLowerCase();
 
         // Loop through HashMap keySet
-        for ( String id : triggerMap.keySet() )
+        for ( String id : reminderMap.keySet() )
         {
 
             // If members value contains messageContent
-            if ( inSet( messageContent, triggerMap.get( id ) ) )
+            if ( inSet( messageContent, reminderMap.get( id ) ) )
             {
 
                 // Retrieve triggered member
@@ -352,12 +352,12 @@ public class Reminder extends ListenerAdapter
                 }
 
                 // If no toggle setting exists
-                if ( !triggerToggle.containsKey( event.getMember().getId() ) )
+                if ( !notificationToggle.containsKey( event.getMember().getId() ) )
                 {
-                    triggerToggle.put( event.getMember().getId(), true );
+                    notificationToggle.put( event.getMember().getId(), true );
                 }
                 // If toggle == false, skip to next ID
-                else if ( !triggerToggle.get( event.getMember().getId() ) )
+                else if ( !notificationToggle.get( event.getMember().getId() ) )
                 {
                     continue;
                 }
@@ -412,7 +412,7 @@ public class Reminder extends ListenerAdapter
             return;
         }
 
-        List<String> list = new ArrayList<>( triggerMap.get( event.getMember().getId() ) );
+        List<String> list = new ArrayList<>( reminderMap.get( event.getMember().getId() ) );
 
         switch ( event.getComponentId() )
         {
@@ -427,7 +427,7 @@ public class Reminder extends ListenerAdapter
                     min -= 5;
                     max -= 5;
 
-                    EmbedBuilder builder = triggerList( min, max, list );
+                    EmbedBuilder builder = reminderList( min, max, list );
 
                     // If new previous page is first page
                     if ( min == 0 )
@@ -449,7 +449,7 @@ public class Reminder extends ListenerAdapter
                 else
                 {
 
-                    EmbedBuilder builder = triggerList( min, max, list );
+                    EmbedBuilder builder = reminderList( min, max, list );
 
                     // If there is a next page
                     if ( list.size() <= 5 )
@@ -476,7 +476,7 @@ public class Reminder extends ListenerAdapter
                 min += 5;
                 max += 5;
 
-                EmbedBuilder builder = triggerList( min, max, list );
+                EmbedBuilder builder = reminderList( min, max, list );
 
                 if ( max >= list.size() )
                 {
@@ -504,11 +504,11 @@ public class Reminder extends ListenerAdapter
                         .setColor( Color.green )
                         .setTitle( "Reminders reset" );
 
-                triggerMap.get( event.getMember().getId() ).clear();
+                reminderMap.get( event.getMember().getId() ).clear();
 
                 try
                 {
-                    Database.resetTriggers( event.getMember(), triggerMap, triggerToggle );
+                    Database.resetTriggers( event.getMember(), reminderMap, notificationToggle );
                 }
                 catch ( SQLException e )
                 {
@@ -581,10 +581,10 @@ public class Reminder extends ListenerAdapter
     }
 
     /**
-     * Template Embed for /trigger list
+     * Template Embed for /notifi list
      *
      * <p>
-     * Formats EmbedBuilder containing triggers from range1 to range2
+     * Formats EmbedBuilder containing reminders from range1 to range2
      * </p>
      *
      * @param range1 Beginning list index
@@ -592,7 +592,7 @@ public class Reminder extends ListenerAdapter
      * @param list   List of member triggers
      * @return Embed Message
      */
-    EmbedBuilder triggerList( int range1, int range2, List<String> list )
+    EmbedBuilder reminderList( int range1, int range2, List<String> list )
     {
 
         EmbedBuilder builder = new EmbedBuilder()
