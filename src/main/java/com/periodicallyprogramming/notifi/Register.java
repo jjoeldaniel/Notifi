@@ -82,7 +82,7 @@ public class Register extends ListenerAdapter
                         com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_DESCRIPTION )
                         .addOption( OptionType.BOOLEAN, com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_OPTION_NAME,
                                 com.periodicallyprogramming.notifi.Commands.NOTIFI_TOGGLE_OPTION_DESCRIPTION, true );
-        SubcommandData newTrigger =
+        SubcommandData newReminder =
                 new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW,
                         com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW_DESCRIPTION )
                         .addOption( OptionType.STRING, com.periodicallyprogramming.notifi.Commands.NOTIFI_NEW_OPTION_NAME,
@@ -96,7 +96,7 @@ public class Register extends ListenerAdapter
         guildCommandData.add(
                 Commands.slash( com.periodicallyprogramming.notifi.Commands.NOTIFI,
                                 com.periodicallyprogramming.notifi.Commands.NOTIFI_DESCRIPTION )
-                        .addSubcommands( help, reset, list, toggle, newTrigger, delete ) );
+                        .addSubcommands( help, reset, list, toggle, newReminder, delete ) );
 
         return guildCommandData;
     }
