@@ -70,7 +70,7 @@ public class Register extends ListenerAdapter
         // List holding all guild commands
         List<CommandData> guildCommandData = new ArrayList<>();
 
-        // Trigger command + subcommands
+        // Notifi command + subcommands
         SubcommandData help = new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_HELP,
                 com.periodicallyprogramming.notifi.Commands.NOTIFI_HELP_DESCRIPTION );
         SubcommandData reset = new SubcommandData( com.periodicallyprogramming.notifi.Commands.NOTIFI_RESET,
