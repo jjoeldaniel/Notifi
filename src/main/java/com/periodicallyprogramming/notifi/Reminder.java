@@ -44,19 +44,16 @@ public class Reminder extends ListenerAdapter
     final Logger log = LoggerFactory.getLogger( Main.class );
 
     @Override
-    public void onGuildReady( GuildReadyEvent event )
+    public void onGuildReady( @NotNull GuildReadyEvent event )
     {
-        if ( event.getGuild().getId().equals( System.getProperty( "GUILD_ID" ) ) )
+        // Loads reminders from database
+        try
         {
-            // Loads reminders from database
-            try
-            {
-                Database.syncData( reminderMap, notificationToggle );
-            }
-            catch ( SQLException e )
-            {
-                log.error( "Failed to sync database", e );
-            }
+            Database.syncData( reminderMap, notificationToggle );
+        }
+        catch ( SQLException e )
+        {
+            log.error( "Failed to sync database", e );
         }
     }
 
@@ -563,10 +560,8 @@ public class Reminder extends ListenerAdapter
         }
         else if ( event instanceof MessageReceivedEvent messageReceivedEvent )
         {
-            String guild_id = System.getProperty( "GUILD_ID" );
 
-            return messageReceivedEvent.getGuild().getId().equals( guild_id )
-                    && messageReceivedEvent.getMember() != null
+            return messageReceivedEvent.getMember() != null
                     && messageReceivedEvent.isFromGuild()
                     && !messageReceivedEvent.getMember().getUser().isBot();
         }
