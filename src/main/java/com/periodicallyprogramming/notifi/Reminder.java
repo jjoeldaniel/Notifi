@@ -337,7 +337,7 @@ public class Reminder extends ListenerAdapter
                 action.queue( ( null ),
 
                         // Handle failure if the member does not exist (or another issue appeared)
-                        ( error ) -> LoggerFactory.getLogger( Main.class ).error( error.toString() )
+                        ( error ) -> log.error( error.toString() )
                 );
                 Member member = event.getGuild().getMemberById( id );
 
