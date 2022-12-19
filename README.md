@@ -31,6 +31,8 @@ With Notifi, users store *reminders* to subscribe to notifications for various p
 - [dotenv Java](https://github.com/cdimascio/dotenv-java)
 - [fuzzywuzzy](https://github.com/xdrop/fuzzywuzzy)
 
+*Note:* Reminders are sometimes referred to as `triggers` internally
+
 ---
 
 Created by jjoeldaniel at [periodicallyprogramming.com](https://periodicallyprogramming.com/)
